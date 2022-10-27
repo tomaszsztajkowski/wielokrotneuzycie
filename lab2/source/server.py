@@ -1,30 +1,19 @@
-#!/usr/bin/env python3
-import http.server
-import socketserver
-import os
+from flask import Flask
+from datetime import datetime
 
-#print('source code for "http.server":', http.server.__file__)
+app = Flask(__name__)
 
-class web_server(http.server.SimpleHTTPRequestHandler):
-    
-    def do_GET(self):
+@app.route("/")
+def default():
+	return "Hello World!"
 
-        print(self.path)
-        
-        if self.path == '/':
-            self.protocol_version = 'HTTP/1.1'
-            self.send_response(200)
-            self.send_header("Content-type", "text/html; charset=UTF-8")
-            self.end_headers()            
-            self.wfile.write(b"Hello World!\n")
-        else:
-            super().do_GET()
-    
-# --- main ---
+@app.route("/cmd/time/")
+def time():
+	return datetime.now().strftime("%H:%M:%S")
+	
+@app.route("/cmd/rev/<string>")
+def rev(string):
+	return string[::-1]
 
-PORT = 4080
-
-print(f'Starting: http://localhost:{PORT}')
-
-tcp_server = socketserver.TCPServer(("",PORT), web_server)
-tcp_server.serve_forever()
+if __name__ == "__main__":
+	app.run(debug=True)
