@@ -9,15 +9,21 @@ def hello():
 @app.route("/", methods=['POST'])
 def math():
     content = request.get_json()
-    # numbers = [int(num1), int(num2)
-    print(content, type(content))
+    output = {}
     if 'num1' in content and 'num2' in content:
         numbers = [int(content['num1']), int(content['num2'])]
-    return {"sum" : numbers[0] + numbers[1],
+        output = {"sum" : numbers[0] + numbers[1],
             "sub" : numbers[0] - numbers[1],
             "mul" : numbers[0] * numbers[1],
             "div" : numbers[0] / numbers[1],
             "mod" : numbers[0] % numbers[1]}
+    if 'str' in content:
+        output["lowercase"] = int(sum(map(str.islower, content['str'])))
+        output["uppercase"] = sum(1 for c in content['str'] if c.isupper())
+        output["digits"] = sum(c.isdigit() for c in content['str'])
+        output["special"] = len(content['str']) - sum(c.isalpha() for c in content['str']) - sum(c.isdigit() for c in content['str']) - sum(c.isspace() for c in content['str'])
+                
+    return output
 
 
 if __name__ == "__main__":
