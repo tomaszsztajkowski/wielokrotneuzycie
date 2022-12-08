@@ -1,14 +1,18 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/hello")
 def hello():
     return "Hello, World!"
 
-@app.route("/num1=<num1>&num2=<num2>")
-def math(num1, num2):
-    numbers = [int(num1), int(num2)]
+@app.route("/", methods=['POST'])
+def math():
+    content = request.get_json()
+    # numbers = [int(num1), int(num2)
+    print(content, type(content))
+    if 'num1' in content and 'num2' in content:
+        numbers = [int(content['num1']), int(content['num2'])]
     return {"sum" : numbers[0] + numbers[1],
             "sub" : numbers[0] - numbers[1],
             "mul" : numbers[0] * numbers[1],
