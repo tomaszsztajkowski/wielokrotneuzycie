@@ -1,5 +1,6 @@
 from flask import Flask, request
 import xmltodict
+from dicttoxml import dicttoxml
 
 app = Flask(__name__)
 
@@ -9,7 +10,6 @@ def hello():
 
 @app.route("/", methods=['POST'])
 def math():
-    # content = request.get_json()
     content = xmltodict.parse(request.get_data())["root"]
     output = {}
     if 'num1' in content and 'num2' in content:
@@ -25,7 +25,7 @@ def math():
         output["digits"] = sum(c.isdigit() for c in content['str'])
         output["special"] = len(content['str']) - sum(c.isalpha() for c in content['str']) - sum(c.isdigit() for c in content['str']) - sum(c.isspace() for c in content['str'])
                 
-    return output
+    return dicttoxml(output, attr_type=False)
 
 
 if __name__ == "__main__":
