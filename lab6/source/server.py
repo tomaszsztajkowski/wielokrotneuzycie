@@ -10,7 +10,8 @@ def hello():
 
 @app.route("/", methods=['POST'])
 def math():
-    content = xmltodict.parse(request.get_data())["root"]
+    content = list(xmltodict.parse(request.get_data()).values()).pop()
+    print(content)
     output = {}
     if 'num1' in content and 'num2' in content:
         numbers = [int(content['num1']), int(content['num2'])]
