@@ -14,11 +14,11 @@ def math():
     output = {}
     if 'num1' in content and 'num2' in content:
         numbers = [int(content['num1']), int(content['num2'])]
-        output = {"sum" : numbers[0] + numbers[1],
-            "sub" : numbers[0] - numbers[1],
-            "mul" : numbers[0] * numbers[1],
-            "div" : numbers[0] / numbers[1],
-            "mod" : numbers[0] % numbers[1]}
+        output = {"sum" : int(numbers[0] + numbers[1]),
+            "sub" : int(numbers[0] - numbers[1]),
+            "mul" : int(numbers[0] * numbers[1]),
+            "div" : int(numbers[0] / numbers[1]),
+            "mod" : int(numbers[0] % numbers[1])}
     if 'str' in content:
         output["lowercase"] = int(sum(map(str.islower, content['str'])))
         output["uppercase"] = sum(1 for c in content['str'] if c.isupper())
