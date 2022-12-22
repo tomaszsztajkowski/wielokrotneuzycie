@@ -1,4 +1,5 @@
 from flask import Flask, request
+import xmltodict
 
 app = Flask(__name__)
 
@@ -8,7 +9,8 @@ def hello():
 
 @app.route("/", methods=['POST'])
 def math():
-    content = request.get_json()
+    # content = request.get_json()
+    content = xmltodict.parse(request.get_data())["root"]
     output = {}
     if 'num1' in content and 'num2' in content:
         numbers = [int(content['num1']), int(content['num2'])]
